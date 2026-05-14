@@ -1,10 +1,11 @@
 # CloudFront Signed URL Demo（Go）
 
-> 本项目由 [Kiro](https://kiro.dev)（AWS AI 开发环境）协助开发完成。
+> 本项目由 [Kiro](https://kiro.dev)（AWS AI IDE）协助开发完成。
 
 一个生成 **CloudFront Canned Policy 签名 URL** 的最小化 HTTP Server，用于限制 S3 静态资源的访问权限。
 
 提供两种实现：
+
 - `/sign` — 纯标准库实现，无外部依赖
 - `/sign_sdk` — 基于 [AWS SDK v2](https://github.com/aws/aws-sdk-go-v2) 的 `feature/cloudfront/sign` 实现
 
@@ -46,7 +47,7 @@ openssl rsa -pubout -in cloudfront-private-key.pem -out cloudfront-public-key.pe
 
 1. 进入 **CloudFront → 密钥管理 → 密钥组**
 2. 点击**添加密钥组**，选择刚才创建的公有密钥
-3. 在 CloudFront Distribution 的**缓存行为**中关联该密钥组：  
+3. 在 CloudFront Distribution 的**缓存行为**中关联该密钥组：
    编辑缓存行为 → 限制查看器访问 → 是 → 受信任的密钥组 → 选择你的密钥组
 
 ### 4. 配置 S3 存储桶
@@ -77,13 +78,13 @@ cp config.example.json config.json
 }
 ```
 
-| 字段 | 说明 |
-|---|---|
+| 字段                    | 说明                                              |
+| ----------------------- | ------------------------------------------------- |
 | `distribution_domain` | CloudFront Distribution 域名（不含 `https://`） |
-| `key_pair_id` | CloudFront 公有密钥 ID |
-| `private_key_path` | 私钥 PEM 文件路径 |
-| `default_ttl_seconds` | 签名 URL 默认有效期（秒），默认 3600 |
-| `listen_addr` | HTTP Server 监听地址，默认 `:8080` |
+| `key_pair_id`         | CloudFront 公有密钥 ID                            |
+| `private_key_path`    | 私钥 PEM 文件路径                                 |
+| `default_ttl_seconds` | 签名 URL 默认有效期（秒），默认 3600              |
+| `listen_addr`         | HTTP Server 监听地址，默认 `:8080`              |
 
 ---
 
@@ -106,9 +107,9 @@ go build -o server .
 
 本 demo 提供两个签名接口，逻辑等价，实现不同：
 
-| 路径 | 实现 |
-|---|---|
-| `/sign` | 标准库实现（无外部依赖） |
+| 路径          | 实现                                           |
+| ------------- | ---------------------------------------------- |
+| `/sign`     | 标准库实现（无外部依赖）                       |
 | `/sign_sdk` | AWS SDK v2 实现（`feature/cloudfront/sign`） |
 
 ### `GET /sign` 和 `GET /sign_sdk`
@@ -117,10 +118,10 @@ go build -o server .
 
 **查询参数**
 
-| 参数 | 必填 | 说明 |
-|---|---|---|
-| `path` | 是 | S3 对象路径，如 `/images/photo.jpg` |
-| `ttl` | 否 | 本次请求的有效期（秒），不填则使用配置中 `default_ttl_seconds` 的值（默认 3600 秒） |
+| 参数     | 必填 | 说明                                                                                  |
+| -------- | ---- | ------------------------------------------------------------------------------------- |
+| `path` | 是   | S3 对象路径，如 `/images/photo.jpg`                                                 |
+| `ttl`  | 否   | 本次请求的有效期（秒），不填则使用配置中 `default_ttl_seconds` 的值（默认 3600 秒） |
 
 **请求示例**
 

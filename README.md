@@ -1,7 +1,10 @@
 # CloudFront Signed URL Demo（Go）
 
-一个生成 **CloudFront Canned Policy 签名 URL** 的最小化 HTTP Server，用于限制 S3 静态资源的访问权限。  
-仅使用 Go 标准库，无任何外部依赖。
+一个生成 **CloudFront Canned Policy 签名 URL** 的最小化 HTTP Server，用于限制 S3 静态资源的访问权限。
+
+提供两种实现：
+- `/sign` — 纯标准库实现，无外部依赖
+- `/sign_sdk` — 基于 [AWS SDK v2](https://github.com/aws/aws-sdk-go-v2) 的 `feature/cloudfront/sign` 实现
 
 ---
 

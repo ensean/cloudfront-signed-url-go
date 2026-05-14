@@ -1,5 +1,7 @@
 # CloudFront Signed URL Demo（Go）
 
+> 本项目由 [Kiro](https://kiro.dev) AI 开发环境协助开发完成。
+
 一个生成 **CloudFront Canned Policy 签名 URL** 的最小化 HTTP Server，用于限制 S3 静态资源的访问权限。
 
 提供两种实现：

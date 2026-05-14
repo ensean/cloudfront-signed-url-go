@@ -24,8 +24,14 @@ func main() {
 		log.Fatalf("init signer: %v", err)
 	}
 
+	sdkSigner, err := NewSDKSigner(cfg)
+	if err != nil {
+		log.Fatalf("init sdk signer: %v", err)
+	}
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/sign", makeSignHandler(signer))
+	mux.HandleFunc("/sign_sdk", makeSignHandler(sdkSigner))
 	mux.HandleFunc("/health", healthHandler)
 
 	log.Printf("server listening on %s", cfg.ListenAddr)
@@ -34,13 +40,18 @@ func main() {
 	}
 }
 
+// urlSigner is the common interface for both signer implementations.
+type urlSigner interface {
+	Sign(s3Path string, ttl time.Duration) (string, error)
+}
+
 // makeSignHandler returns an HTTP handler that produces a CloudFront signed URL.
 //
 // Query parameters:
 //
 //	path  (required) – S3 object path, e.g. /images/photo.jpg
 //	ttl   (optional) – TTL in seconds; falls back to config default
-func makeSignHandler(signer *Signer) http.HandlerFunc {
+func makeSignHandler(signer urlSigner) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			writeError(w, http.StatusMethodNotAllowed, "only GET is supported")

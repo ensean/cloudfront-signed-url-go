@@ -99,7 +99,14 @@ go build -o server .
 
 ## API
 
-### `GET /sign`
+本 demo 提供两个签名接口，逻辑等价，实现不同：
+
+| 路径 | 实现 |
+|---|---|
+| `/sign` | 标准库实现（无外部依赖） |
+| `/sign_sdk` | AWS SDK v2 实现（`feature/cloudfront/sign`） |
+
+### `GET /sign` 和 `GET /sign_sdk`
 
 为指定 S3 对象生成签名 URL。
 
@@ -113,8 +120,13 @@ go build -o server .
 **请求示例**
 
 ```bash
+# 标准库实现
 curl "http://localhost:8080/sign?path=/images/photo.jpg"
 curl "http://localhost:8080/sign?path=/videos/demo.mp4&ttl=300"
+
+# SDK v2 实现
+curl "http://localhost:8080/sign_sdk?path=/images/photo.jpg"
+curl "http://localhost:8080/sign_sdk?path=/videos/demo.mp4&ttl=300"
 ```
 
 **响应示例**

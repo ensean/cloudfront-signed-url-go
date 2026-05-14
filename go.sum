@@ -1,0 +1,2 @@
+github.com/aws/aws-sdk-go-v2/feature/cloudfront/sign v1.7.3 h1:HliVaM6qFwXDoZKblAmRahFM18fYNvg9p/R/BOA9G/E=
+github.com/aws/aws-sdk-go-v2/feature/cloudfront/sign v1.7.3/go.mod h1:j8bi0ylSL/QJ5UzF/9/1OGKTMlVpLOcuc9cyLlf7F28=

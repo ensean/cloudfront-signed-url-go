@@ -1,0 +1,7 @@
+{
+  "distribution_domain": "YOUR_DISTRIBUTION_DOMAIN.cloudfront.net",
+  "key_pair_id": "YOUR_KEY_PAIR_ID",
+  "private_key_path": "./cloudfront-private-key.pem",
+  "default_ttl_seconds": 3600,
+  "listen_addr": ":8080"
+}
